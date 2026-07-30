@@ -35,5 +35,7 @@ lerna-debug.log*
 
 # tanstack router
 src/client/routeTree.gen.ts
+.tanstack/
 
 .superpowers
+.dev.vars

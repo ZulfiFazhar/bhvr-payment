@@ -10,7 +10,7 @@
     {
       "binding": "DB",
       "database_name": "payment-gateway-db",
-      "database_id": "local",
+      "database_id": "74c573bb-161a-4b1c-8771-e220a040400f",
       "migrations_dir": "./drizzle"
     }
   ]

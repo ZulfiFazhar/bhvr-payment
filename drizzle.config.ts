@@ -20,4 +20,7 @@ export default defineConfig({
   dbCredentials: {
     url: localDbPath || '',
   },
+  seed: {
+    seed: './src/server/db/seed.ts',
+  },
 })

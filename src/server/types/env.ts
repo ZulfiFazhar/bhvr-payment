@@ -5,5 +5,6 @@ export type Env = {
     BETTER_AUTH_URL: string
     SUMOPOD_API_KEY: string
     SUMOPOD_WEBHOOK_TOKEN: string
+    SUMOPOD_WEBHOOK_SECRET: string
   }
 }

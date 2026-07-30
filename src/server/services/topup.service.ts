@@ -5,7 +5,7 @@ import { topup, user } from '../db/schema'
 export class TopupService {
   constructor(private db: Database) {}
 
-  async createTopup(userId: string, amount: number, apiKey: string) {
+  async createTopup(userId: string, amount: number, apiKey: string, successUrl: string, cancelUrl: string) {
     const orderId = crypto.randomUUID()
     const response = await fetch('https://api-pay-sandbox.sumopod.com/api/v1/payments', {
       method: 'POST',
@@ -18,6 +18,8 @@ export class TopupService {
         amount: amount,
         currency: 'IDR',
         payment_method_type_code: 'QRIS',
+        success_return_url: successUrl,
+        cancel_return_url: cancelUrl,
       }),
     })
 
@@ -26,8 +28,8 @@ export class TopupService {
     }
 
     const data = (await response.json()) as {
-      id: string
-      payment_url: string
+      payment_id: string
+      payment_link_url: string
       [key: string]: any
     }
 
@@ -36,8 +38,8 @@ export class TopupService {
       id: orderId,
       userId,
       amount,
-      paymentId: data.id,
-      paymentUrl: data.payment_url,
+      paymentId: data.payment_id,
+      paymentUrl: data.payment_link_url,
       status: 'pending',
       createdAt: now,
       updatedAt: now,
@@ -45,7 +47,7 @@ export class TopupService {
 
     return {
       id: orderId,
-      paymentUrl: data.payment_url,
+      paymentUrl: data.payment_link_url,
     }
   }
 

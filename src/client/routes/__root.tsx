@@ -1,33 +1,31 @@
-import React, { Suspense } from 'react'
-import { createRootRoute, Outlet, Link } from '@tanstack/react-router'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '../lib/query-client'
-import { authClient } from '../lib/auth-client'
+import React, { Suspense } from "react";
+import { createRootRoute, Outlet, Link } from "@tanstack/react-router";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../lib/query-client";
+import { authClient } from "../lib/auth-client";
 
-const TanStackRouterDevtools =
-  import.meta.env.DEV
-    ? React.lazy(() =>
-        import('@tanstack/router-devtools').then((res) => ({
-          default: res.TanStackRouterDevtools,
-        }))
-      )
-    : () => null
+const TanStackRouterDevtools = import.meta.env.DEV
+  ? React.lazy(() =>
+      import("@tanstack/router-devtools").then((res) => ({
+        default: res.TanStackRouterDevtools,
+      })),
+    )
+  : () => null;
 
-const ReactQueryDevtools =
-  import.meta.env.DEV
-    ? React.lazy(() =>
-        import('@tanstack/react-query-devtools').then((res) => ({
-          default: res.ReactQueryDevtools,
-        }))
-      )
-    : () => null
+const ReactQueryDevtools = import.meta.env.DEV
+  ? React.lazy(() =>
+      import("@tanstack/react-query-devtools").then((res) => ({
+        default: res.ReactQueryDevtools,
+      })),
+    )
+  : () => null;
 
 export const Route = createRootRoute({
   component: RootLayout,
-})
+});
 
 function RootLayout() {
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,11 +35,17 @@ function RootLayout() {
           <nav className="flex items-center gap-4 text-sm font-medium">
             {session && (
               <>
-                <Link to="/dashboard" className="hover:underline [&.active]:font-bold">
+                <Link
+                  to="/dashboard"
+                  className="hover:underline [&.active]:font-bold"
+                >
                   Dashboard
                 </Link>
-                {(session.user as any).role === 'admin' && (
-                  <Link to="/admin" className="hover:underline [&.active]:font-bold">
+                {(session.user as any).role === "admin" && (
+                  <Link
+                    to="/admin"
+                    className="hover:underline [&.active]:font-bold"
+                  >
                     Admin Panel
                   </Link>
                 )}
@@ -54,9 +58,9 @@ function RootLayout() {
         </main>
       </div>
       <Suspense fallback={null}>
-        <TanStackRouterDevtools position="bottom-right" />
+        <TanStackRouterDevtools position="bottom-left" />
         <ReactQueryDevtools initialIsOpen={false} />
       </Suspense>
     </QueryClientProvider>
-  )
+  );
 }

@@ -1,12 +1,12 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "base-sera",
+  "style": "base-luma",
   "rsc": false,
   "tsx": true,
   "tailwind": {
     "config": "",
     "css": "src/client/style.css",
-    "baseColor": "taupe",
+    "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
