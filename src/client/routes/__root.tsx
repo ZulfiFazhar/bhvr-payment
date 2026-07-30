@@ -1,7 +1,26 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import React, { Suspense } from 'react'
+import { createRootRoute, Outlet, Link } from '@tanstack/react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '../lib/query-client'
 import { authClient } from '../lib/auth-client'
+
+const TanStackRouterDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/router-devtools').then((res) => ({
+          default: res.TanStackRouterDevtools,
+        }))
+      )
+    : () => null
+
+const ReactQueryDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/react-query-devtools').then((res) => ({
+          default: res.ReactQueryDevtools,
+        }))
+      )
+    : () => null
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -34,6 +53,10 @@ function RootLayout() {
           <Outlet />
         </main>
       </div>
+      <Suspense fallback={null}>
+        <TanStackRouterDevtools position="bottom-right" />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Suspense>
     </QueryClientProvider>
   )
 }
