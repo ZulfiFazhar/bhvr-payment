@@ -1,23 +1,7 @@
-# Task 1 Report: Dependencies & Configuration
-
 ## Actions Taken
-
-1. **Installed dependencies**:
-   - Added production dependencies: `drizzle-orm` and `better-auth`
-   - Added development dependency: `drizzle-kit`
-   - Installed using `bun`
-
-2. **Setup shadcn components**:
-   - Added `input`, `label`, and `card` components using `bunx shadcn@latest add`
-   - Verified components are created inside `src/client/components/ui/`
-
-3. **Created configuration files**:
-   - Created `drizzle.config.ts` specifying output migrations directory `drizzle` and schema path `src/server/db/schema.ts`
-   - Created `.env.example` and `.dev.vars` with `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL`
-
-4. **Updated config files & scripts**:
-   - Configured `d1_databases` in `wrangler.jsonc` with binding `DB`
-   - Added `db:generate`, `db:migrate:local`, and `db:migrate:remote` scripts in `package.json`
-
-5. **Type generation**:
-   - Executed `bun run cf-typegen` to update `worker-configuration.d.ts` with bindings and env variables.
+- Updated `src/server/db/schema.ts` to add `role` (text, default 'user'), `balance` (integer, default 0) to `user` table, and created the new `topup` table with foreign key reference to `user.id`.
+- Updated `src/server/types/env.ts` to add `DB`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `SUMOPOD_API_KEY`, and `SUMOPOD_WEBHOOK_TOKEN` to `Bindings`.
+- Added `SUMOPOD_API_KEY` and `SUMOPOD_WEBHOOK_TOKEN` to `.env.example` and `.dev.vars`.
+- Generated Drizzle migration files using `bun run db:generate`.
+- Applied Drizzle migration files locally using `bun run db:migrate:local`.
+- Generated type definition file `worker-configuration.d.ts` using `bun run cf-typegen`.
