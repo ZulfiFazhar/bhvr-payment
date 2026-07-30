@@ -15,6 +15,7 @@ function RegisterPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [role, setRole] = useState<'user' | 'admin'>('user')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -28,7 +29,8 @@ function RegisterPage() {
         email,
         password,
         name,
-      })
+        role,
+      } as any)
 
       if (authError) {
         setError(authError.message || 'Failed to sign up')
@@ -91,6 +93,18 @@ function RegisterPage() {
                 placeholder="••••••••"
                 disabled={loading}
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <select
+                id="role"
+                className="w-full rounded-none border border-input bg-transparent px-3 py-2 text-xs"
+                value={role}
+                onChange={(e) => setRole((e.target as HTMLSelectElement).value as 'user' | 'admin')}
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4 mt-6">
