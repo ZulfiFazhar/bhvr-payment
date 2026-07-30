@@ -1,4 +1,4 @@
-import { eq, desc, sum } from 'drizzle-orm'
+import { eq, desc, sum, sql } from 'drizzle-orm'
 import type { Database } from '../db/index'
 import { topup, user } from '../db/schema'
 
@@ -105,7 +105,7 @@ export class TopupService {
       this.db
         .update(user)
         .set({
-          balance: Number(pendingTopup.amount) + Number(amount),
+          balance: sql`${user.balance} + ${amount}`,
         })
         .where(eq(user.id, pendingTopup.userId)),
     ])
@@ -122,14 +122,6 @@ export class TopupService {
       return
     }
 
-    const [u] = await this.db
-      .select()
-      .from(user)
-      .where(eq(user.id, pendingTopup.userId))
-      .limit(1)
-
-    const currentBalance = u?.balance || 0
-
     await this.db.batch([
       this.db
         .update(topup)
@@ -138,7 +130,7 @@ export class TopupService {
       this.db
         .update(user)
         .set({
-          balance: currentBalance + pendingTopup.amount,
+          balance: sql`${user.balance} + ${pendingTopup.amount}`,
         })
         .where(eq(user.id, pendingTopup.userId)),
     ])
