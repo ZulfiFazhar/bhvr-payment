@@ -107,7 +107,7 @@ export class TopupService {
       this.db
         .update(user)
         .set({
-          balance: sql`${user.balance} + ${amount}`,
+          balance: sql`${user.balance} + ${pendingTopup.amount}`,
         })
         .where(eq(user.id, pendingTopup.userId)),
     ])
